@@ -1,9 +1,6 @@
-package com.example.demo.controller;
+package com.example.demo.restcontroller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.CategoryDTO;
 import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryService;
 
@@ -43,7 +41,7 @@ public class CategoryController {
 		
 		Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by(Direction.fromString(dir), sortBy));
 		
-		Page<Category> pageCategories;
+		Page<CategoryDTO> pageCategories;
 		
 		if(name == null) {
 			pageCategories = categoryService.findAll(pageable);
@@ -51,7 +49,7 @@ public class CategoryController {
 			pageCategories = categoryService.findByName(name, pageable);
 		}
 		
-		List<Category> listCategories = pageCategories.getContent();
+		List<CategoryDTO> listCategories = pageCategories.getContent();
 		
 		if(listCategories == null) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
@@ -75,7 +73,7 @@ public class CategoryController {
 	
 //	 get category by id
 	@GetMapping("/{id}")
-	public Category getCategoryById(@PathVariable("id") Integer id) {
+	public CategoryDTO getCategoryById(@PathVariable("id") Integer id) {
 		return categoryService.getById(id);
 	}
 	
@@ -83,13 +81,12 @@ public class CategoryController {
 	// update category
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Object> updateCategory(@PathVariable("id") Integer id, @RequestBody Category newCategory) {
-		Category foundCategory = categoryService.getById(id);
+		CategoryDTO foundCategory = categoryService.getById(id);
 		if(foundCategory == null) {
 			return new ResponseEntity<>("Khong tim thay category", HttpStatus.NOT_FOUND);
 		}else {
 			foundCategory.setName(newCategory.getName());
-			foundCategory.setProducts(newCategory.getProducts());
-			categoryService.save(foundCategory);
+			categoryService.save(categoryService.convertFromCategoryDTO(foundCategory));
 		}
 		return new ResponseEntity<>("Da update", HttpStatus.OK);
 	}
@@ -98,7 +95,7 @@ public class CategoryController {
 	// delete category
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Object> deleteCategory(@PathVariable("id") Integer id) {
-		Category foundCategory = categoryService.getById(id);
+		CategoryDTO foundCategory = categoryService.getById(id);
 		
 		if(foundCategory == null) {
 			return new ResponseEntity<>("Khong tim thay category", HttpStatus.NOT_FOUND);

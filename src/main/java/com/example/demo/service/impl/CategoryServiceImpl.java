@@ -1,13 +1,13 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.CategoryDTO;
 import com.example.demo.entity.Category;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.service.CategoryService;
@@ -21,8 +21,10 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	
 	@Override
-	public Page<Category> findAll(Pageable pageable) {
-		return categoryRepository.findAll(pageable);
+	public Page<CategoryDTO> findAll(Pageable pageable) {
+		Page<Category> categoryPage = categoryRepository.findAll(pageable);
+		Page<CategoryDTO> dtoPage = categoryPage.map(category -> new CategoryDTO(category));
+		return dtoPage;
 	}
 
 
@@ -40,27 +42,66 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 	@Override
-	public Category getById(Integer id) {
-		return categoryRepository.findById(id).orElse(null);
+	public CategoryDTO getById(Integer id) {
+		return new CategoryDTO(categoryRepository.findById(id).orElse(null));
 	}
 
 
 	@Override
-	public Page<Category> findByName(String name, Pageable page) {
-		return categoryRepository.findByName(name, page);
+	public Page<CategoryDTO> findByName(String name, Pageable page) {
+		Page<Category> categoryPage = categoryRepository.findByName(name, page);
+		Page<CategoryDTO> dtoPage = categoryPage.map(category -> new CategoryDTO(category));
+		return dtoPage;
 	}
 
 
 	@Override
-	public Category findByName(String name) {
-		return categoryRepository.findByNameContainingIgnoreCase(name);
+	public CategoryDTO findByName(String name) {
+		return new CategoryDTO(categoryRepository.findByNameContainingIgnoreCase(name));
 	}
 
 
 	@Override
-	public List<Category> findAll() {
-		return categoryRepository.findAll();
+	public List<CategoryDTO> findAll() {
+		List<Category> listCategories = categoryRepository.findAll();
+		List<CategoryDTO> dtos = new ArrayList<>();
+		for (Category category : listCategories) {
+			CategoryDTO categoryDTO = new CategoryDTO(category);
+			dtos.add(categoryDTO);
+		}
+		return dtos;
 	}
 
+
+	@Override
+	public Category convertFromCategoryDTO(CategoryDTO categoryDTO) {
+		return new Category(categoryDTO.getId(), categoryDTO.getName(), categoryDTO.getCreated_at(), categoryDTO.getUpdated_at());
+	}
+
+
+	@Override
+	public CategoryDTO findExactlyName(String name) {
+		Category category = categoryRepository.findByName(name);
+		return new CategoryDTO(category);
+	}
+
+
+	@Override
+	public Category update(CategoryDTO categoryDTO) {
+		Category category = categoryRepository.findById(categoryDTO.getId()).get();
+		category.setId(categoryDTO.getId());
+		category.setName(categoryDTO.getName());
+		category.setCreated_at(category.getCreated_at());
+		category.setUpdated_at(categoryDTO.getUpdated_at());
+		return category;
+	}
+
+	@Override
+	public boolean isDuplicatedName(String name) {
+		List<CategoryDTO> list = this.findAll();
+		CategoryDTO foundCategory = list.stream().filter(c -> c.getName().toLowerCase().equals(name.toLowerCase())).findFirst().orElse(null);
+		if(foundCategory != null) return true;
+		return false;
+	}
 
 }

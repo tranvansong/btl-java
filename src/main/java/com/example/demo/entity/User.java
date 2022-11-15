@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,8 +26,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToMany(targetEntity = Order.class, cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id", referencedColumnName = "id")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Order> orders = new HashSet<>();
 	
 	@Column

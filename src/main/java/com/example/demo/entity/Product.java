@@ -30,9 +30,6 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
-	
-
 
 	// so luong
 	@Column(name = "quantity")
@@ -55,6 +52,23 @@ public class Product {
 	private Date updated_at;
 
 	public Product() {
+	}
+	
+	public Product(String name, String description, Category category, Integer quantity, Integer price, String image) {
+		this.name = name;
+		this.description = description;
+		this.category = category;
+		this.quantity = quantity;
+		this.price = price;
+		this.image = image;
+	}
+
+	public Product(String name, String description, Category category, Integer quantity, Integer price) {
+		this.name = name;
+		this.description = description;
+		this.category = category;
+		this.quantity = quantity;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -126,5 +140,15 @@ public class Product {
 
 	public void setUpdated_at(Date updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", category=" + category
+				+ ", quantity=" + quantity + ", price=" + price + ", image=" + image + ", created_at=" + created_at
+				+ ", updated_at=" + updated_at + "]";
 	}	
+	
+	
+	
 }

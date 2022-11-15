@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,6 +33,10 @@ public class Order {
 	@Column(name = "total_payment")
 	private int totalPayment;
 	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
@@ -41,6 +47,32 @@ public class Order {
 
 	
 	public Order() {
+	}
+	
+	public Order(Integer id, String name, String email, String address, String phone, int totalPayment, User user,
+			Date created_at, Date updated_at) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.address = address;
+		this.phone = phone;
+		this.totalPayment = totalPayment;
+		this.user = user;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
+
+	public Order(Integer id, String name, String email, String address, String phone, int totalPayment, Date created_at,
+			Date updated_at) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.address = address;
+		this.phone = phone;
+		this.totalPayment = totalPayment;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
 	}
 
 	public Integer getId() {
