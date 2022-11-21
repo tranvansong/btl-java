@@ -138,4 +138,11 @@ public class Order {
 	public void setUpdated_at(Date updated_at) {
 		this.updated_at = updated_at;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + ", phone=" + phone
+				+ ", totalPayment=" + totalPayment +  ", created_at=" + created_at + ", updated_at="
+				+ updated_at + "]";
+	}
 }

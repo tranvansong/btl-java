@@ -9,10 +9,10 @@ import com.example.demo.dto.OrderInfo;
 import com.example.demo.entity.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
-
-//	@Query("SELECT new OrderInfo.class.getName()"
-//			+ "(ord.id, ord.created_at, ord.totalpayment,"
-//			+ "ord.name, ord.address, ord.email, ord.phone)" + " from"
-//			+ "Order.class.getName() ")
+//
+//	@Query("'SELECT new' + OrderInfo.class.getName()
+//			+ '(ord.id, ord.created_at, ord.totalpayment,'
+//			+ 'ord.name, ord.address, ord.email, ord.phone)' + ' from'
+//			+ Order.class.getName())'
 //	List<OrderInfo> listOrderInfos();
 }

@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> findAllProducts() {
 		return productRepository.findAll();
 	}
-
+	
 	@Override
 	public void saveProduct(Product product) {
 		productRepository.save(product);
@@ -114,8 +114,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void updateProduct(Integer id, String name, String description, int quantity, int price, Category category,
 			MultipartFile file) {
-		Product product = new Product();
-		product.setId(id);
+		Product product = productRepository.findById(id).orElse(null);
 		product.setName(name);
 		product.setDescription(description);
 		product.setPrice(price);
@@ -123,9 +122,9 @@ public class ProductServiceImpl implements ProductService {
 		product.setCategory(category);
 		product.setImage(changefileToString(file));
 		productRepository.save(product);
-		
 	}
 	
+	@Override
 	public String changefileToString(MultipartFile file) {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		if(fileName.contains("..")) {
@@ -146,4 +145,16 @@ public class ProductServiceImpl implements ProductService {
 		ProductDTO found = list.stream().filter(c -> c.getProductName().toLowerCase().equals(name.toLowerCase())).findFirst().orElse(null);
 		return found != null;
 	}
+
+	@Override
+	public List<ProductDTO> findByKeyword(String keyword) {
+		List<Product> list = productRepository.findByKeyword(keyword);
+		List<ProductDTO> listDtos = new ArrayList<>();
+		for (Product product : list) {
+			ProductDTO productDTO = new ProductDTO(product);
+			listDtos.add(productDTO);
+		}
+		return listDtos;
+	}
+	
 }

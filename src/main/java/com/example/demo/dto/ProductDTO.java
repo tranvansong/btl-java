@@ -48,6 +48,13 @@ public class ProductDTO {
 		this.slug = doiten(productName);
 		this.categorySlug = doiten(categoryName);
 	}
+	
+	public ProductDTO(Integer id, String productName, int price, int quantity) {
+		this.id = id;
+		this.productName = productName;
+		this.price = price;
+		this.quantity = quantity;
+	}
 	public String doiten(String s) {
 		StringTokenizer stringTokenizer = new StringTokenizer(s);
 		StringBuilder builder = new StringBuilder();
@@ -131,12 +138,19 @@ public class ProductDTO {
 	public String getCategorySlug() {
 		return categorySlug;
 	}
-	
 	@Override
 	public String toString() {
-		return "ProductDTO [id=" + id + ", categoryName=" + categoryName + ", categoryId=" + categoryId
-				+ ", productName=" + productName + ", description=" + description + ", image=" + image + ", price="
-				+ price + ", quantity=" + quantity + ", created_at=" + created_at + ", updated_at=" + updated_at
-				+ ", slug=" + slug + "]";
+		return "ProductDTO [id=" + id + ", productName=" + productName + ", price=" + price + ", quantity=" + quantity
+				+ "]";
 	}
+//	
+//	@Override
+//	public String toString() {
+//		return "ProductDTO [id=" + id + ", categoryName=" + categoryName + ", categoryId=" + categoryId
+//				+ ", productName=" + productName + ", description=" + description + ", image=" + image + ", price="
+//				+ price + ", quantity=" + quantity + ", created_at=" + created_at + ", updated_at=" + updated_at
+//				+ ", slug=" + slug + "]";
+//	}
+	
+	
 }

@@ -104,4 +104,14 @@ public class CategoryServiceImpl implements CategoryService {
 		return false;
 	}
 
+
+	@Override
+	public List<CategoryDTO> findByKeyword(String keyword) {
+		List<CategoryDTO> categoryDTOs = new ArrayList<>();
+		for (Category category : categoryRepository.findByKeyword(keyword)) {
+			categoryDTOs.add(new CategoryDTO(category));
+		}
+		return categoryDTOs;
+	}
+
 }

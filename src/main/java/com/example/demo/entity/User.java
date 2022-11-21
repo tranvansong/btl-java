@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +21,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -46,6 +52,9 @@ public class User {
 	private String phone;
 	
 	@Column
+	private String role;
+	
+	@Column
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
@@ -58,7 +67,36 @@ public class User {
 	
 	public User() {
 	}
+	
+	public User(Integer id, Set<Order> orders, String name, String email, String password, String address, String phone,
+			String role, Date created_at, Date updated_at) {;
+		this.id = id;
+		this.orders = orders;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.phone = phone;
+		this.role = role;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
+	
+	public User(Integer id, Set<Order> orders, String name, String email, String address, String phone, String role,
+			Date created_at, Date updated_at) {
+		super();
+		this.id = id;
+		this.orders = orders;
+		this.name = name;
+		this.email = email;
+		this.address = address;
+		this.phone = phone;
+		this.role = role;
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -115,6 +153,14 @@ public class User {
 		this.phone = phone;
 	}
 
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 	public Date getCreated_at() {
 		return created_at;
 	}

@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,6 +13,7 @@ import javax.persistence.Table;
 public class Order_Product {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private int quantity;
 	private int price;
@@ -73,4 +76,12 @@ public class Order_Product {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+
+	@Override
+	public String toString() {
+		return "Order_Product [id=" + id + ", quantity=" + quantity + ", price=" + price + ", product=" + product.getName()
+				+ ", order=" + order + "]";
+	}
+	
+	
 }

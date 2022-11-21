@@ -90,4 +90,13 @@ public class OrderInfo {
 	public void setProducts(List<ProductDTO> products) {
 		this.products = products;
 	}
+
+	@Override
+	public String toString() {
+		return "OrderInfo [id=" + id + ", customerName=" + customerName + ", customerEmail=" + customerEmail
+				+ ", customerAddress=" + customerAddress + ", customerPhone=" + customerPhone + ", totalPayment="
+				+ totalPayment + ", products=" + products + "]";
+	}
+	
+	
 }

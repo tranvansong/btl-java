@@ -22,5 +22,7 @@ public interface ProductService {
 	public void deleteProduct(Integer id);
 	public void saveProduct(String name, String description, int quantity, int price, Category category, MultipartFile file);
 	public void updateProduct(Integer id, String name, String description, int quantity, int price, Category category, MultipartFile file);
+	public String changefileToString(MultipartFile file);
 	public boolean isDuplicatedName(String name);
+	public List<ProductDTO> findByKeyword(String keyword);
 }

@@ -21,4 +21,5 @@ public interface CategoryService {
 	public Page<CategoryDTO> findByName(String name, Pageable pageable);
 	public Category convertFromCategoryDTO(CategoryDTO categoryDTO);
 	public boolean isDuplicatedName(String name);
+	public List<CategoryDTO> findByKeyword(String keyword);
 }
