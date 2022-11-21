@@ -53,7 +53,7 @@ public class SecurityConfiguration {
 				.failureUrl("/admin/login?error=true")
 				.permitAll()
 				.and()
-				.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?message=logout")
+				.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login")
 				.and()
 				.exceptionHandling().accessDeniedPage("/erorr/403");
 		

@@ -65,16 +65,15 @@ public class OrderListServiceImpl implements OrderListService {
 		long money = 0;
 		
 		int currentMonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-		
-		for (Order_Product order_Product : orderListRepository.findAll()) {
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		for (Order order: this.findAllOrders()) {
 			
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(order_Product.getOrder().getCreated_at());
+			cal.setTime(order.getCreated_at());
 			int month = cal.get(Calendar.MONTH)+1;
-//			System.out.println(month);
-//			System.out.println(currentMonth);
-//			System.out.println(order_Product.getOrder().getTotalPayment());
-			if(month == currentMonth) money+=order_Product.getOrder().getTotalPayment();
+			int year = cal.get(Calendar.YEAR);
+			System.out.println(order.getTotalPayment());
+			if(month == currentMonth && year == currentYear) money+=order.getTotalPayment();
 		}
 		
 		return money;
